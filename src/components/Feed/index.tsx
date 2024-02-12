@@ -1,4 +1,6 @@
 import * as Tabs from "@/components/ui/Tabs";
+import Post from "../features/Post";
+import { posts } from "@/mock/posts";
 
 const Feed: React.FC = () => {
   return (
@@ -31,7 +33,11 @@ const Feed: React.FC = () => {
           </button>
         </Tabs.List>
         <Tabs.Content value="tab1">
-          <div>For You</div>
+          <div>
+            {posts.map((post, key) => (
+              <Post post={post} key={post.id + key} />
+            ))}
+          </div>{" "}
         </Tabs.Content>
         <Tabs.Content
           className="grow p-5 bg-white rounded-b-md outline-none "

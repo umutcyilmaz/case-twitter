@@ -39,7 +39,7 @@ export const Trigger: FC<TabsTriggerProps> = (props) => {
 export const Content: FC<TabsContentProps> = (props) => {
   return (
     <Tabs.Content
-      className="bg-white px-5 h-[45px] flex-1 flex items-center justify-center text-[15px] leading-none text-mauve11 select-none first:rounded-tl-md last:rounded-tr-md data-[state=active]:focus:relative  outline-none cursor-default"
+      className="bg-white  flex-1 flex items-center justify-center text-[15px] leading-none text-mauve11 select-none first:rounded-tl-md last:rounded-tr-md data-[state=active]:focus:relative  outline-none cursor-default"
       {...props}
     >
       {props.children}
