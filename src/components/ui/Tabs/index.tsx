@@ -12,7 +12,7 @@ import {
 export const Root: FC<TabsProps> = (props) => {
   return (
     <Tabs.Root
-      className="flex flex-col w-full hover:bg-[#f7f9f9]"
+      className="flex flex-col w-full "
       {...props}
     >
       {props.children}

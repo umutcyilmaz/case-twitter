@@ -2,6 +2,7 @@
 import Avatar from "@/components/ui/Avatar";
 import { numberFormat } from "@/lib/formats";
 import { useState } from "react";
+import Poll from "./Poll";
 
 interface PostProps {
   post: Object;
@@ -19,7 +20,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   };
 
   return (
-    <div className="px-4 py-3 gap-3 border-b border-borderColor flex relative before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[#f7f9f9]">
+    <div className="px-4 py-3 gap-3 border-b border-borderColor hover:bg-hoverColor flex relative before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[#f7f9f9]">
       <Avatar imageUrl={post.account.avatar} />
       <div className="flex-1">
         <header className="leading-5 flex justify-between items-center mb-0.5">
@@ -53,6 +54,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
               __html: post.content.replace(/\n/g, "<br>"),
             }}
           />
+
+          {post.type === "poll" && <Poll poll={post.poll} />}
 
           <div className="flex -ml-1.5 mt-1.5 ">
             <div className="flex-1 group flex items-center gap-px cursor-pointer">
@@ -129,7 +132,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               </span>
             </div>
 
-            <div className="w-[2.172rem] h-[2.172rem] transition-colors flex items-center justify-end text-secondaryColor hover:bg-[#1d9bf01a] rounded-full hover:text-[#1d9bf0] cursor-pointer">
+            <div className="w-[2.172rem] h-[2.172rem] transition-colors flex items-center justify-end text-secondaryColor  hover:text-[#1d9bf0] cursor-pointer">
               <svg viewBox="0 0 24 24" className="h-[1.172rem]">
                 <path
                   fill="currentColor"
