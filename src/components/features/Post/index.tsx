@@ -3,6 +3,7 @@ import Avatar from "@/components/ui/Avatar";
 import { numberFormat } from "@/lib/formats";
 import { useState } from "react";
 import Poll from "./Poll";
+import Photo from "../Photo";
 
 interface PostProps {
   post: Object;
@@ -20,7 +21,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   };
 
   return (
-    <div className="px-4 py-3 gap-3 border-b border-borderColor hover:bg-hoverColor flex relative before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[#f7f9f9]">
+    <div className="px-4 py-3 gap-3 border-b border-borderColor hover:bg-hoverColor flex justify-center relative before:absolute before:z-[-1] before:transition-colors before:opacity-50 before:inset-0 before:hover:bg-[#f7f9f9]">
       <Avatar imageUrl={post.account.avatar} />
       <div className="flex-1">
         <header className="leading-5 flex justify-between items-center mb-0.5">
@@ -49,12 +50,13 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </header>
         <div>
           <div
-            className="py-1 leading-[20px] font-[15px]"
+            className="py-1 text-[#263340] leading-[20px] font-[15px]"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/\n/g, "<br>"),
             }}
           />
 
+          {post.type === "photo" && <Photo photos={post.photos} />}
           {post.type === "poll" && <Poll poll={post.poll} />}
 
           <div className="flex -ml-1.5 mt-1.5 ">

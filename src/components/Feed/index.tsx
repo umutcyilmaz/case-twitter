@@ -11,7 +11,7 @@ const Feed: React.FC = () => {
           aria-label="Manage your account"
         >
           <Tabs.Trigger
-            className="flex-auto data-[state=active]:font-bold  text-center bg-white hover:bg-[#f7f9f9] transition-colors"
+            className="flex-auto data-[state=active]:font-bold  text-center  hover:bg-[#f7f9f9] transition-colors"
             value="tab1"
           >
             <div className="relative inline-flex items-center border-b-4 border-primaryColor h-[53px]">
@@ -19,7 +19,7 @@ const Feed: React.FC = () => {
             </div>
           </Tabs.Trigger>
           <Tabs.Trigger
-            className="flex-auto  data-[state=active]:font-bold  h-[53px] text-center bg-white hover:bg-[#f7f9f9] transition-colors"
+            className="flex-auto  data-[state=active]:font-bold  h-[53px] text-center hover:bg-[#f7f9f9] transition-colors"
             value="tab2"
           >
             <div className="relative inline-flex items-center border-none active:border-b-4  active:border-primaryColor  h-[53px]">
