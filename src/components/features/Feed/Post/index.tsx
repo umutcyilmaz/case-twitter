@@ -3,17 +3,33 @@ import Avatar from "@/components/ui/Avatar";
 import { numberFormat } from "@/lib/formats";
 import { useState } from "react";
 import Poll from "./Poll";
-import Photo from "../Photo";
+import Photo from "./Photo";
 
 interface PostProps {
-  post: Object;
+  post: {
+    account: {
+      avatar: string;
+      fullName: string;
+      username: string;
+      verified?: boolean;
+    };
+    time: string;
+    content: string;
+    stats: {
+      like: number;
+      comments: number;
+      repost: number;
+      view: number;
+    };
+    type?: string;
+    photos: string[]; 
+    poll?: any; 
+  };
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const [likes, setLikes] = useState<number>(post.stats.like);
   const [liked, setLiked] = useState<boolean>(false);
-
-  console.log(post);
 
   const handleLike = () => {
     setLikes((prevLikes) => (liked ? prevLikes - 1 : prevLikes + 1));
