@@ -4,27 +4,10 @@ import { numberFormat } from "@/lib/formats";
 import { useState } from "react";
 import Poll from "./Poll";
 import Photo from "./Photo";
+import { IPost } from "@/types";
 
 interface PostProps {
-  post: {
-    account: {
-      avatar: string;
-      fullName: string;
-      username: string;
-      verified?: boolean;
-    };
-    time: string;
-    content: string;
-    stats: {
-      like: number;
-      comments: number;
-      repost: number;
-      view: number;
-    };
-    type?: string;
-    photos: string[]; 
-    poll?: any; 
-  };
+  post: IPost;
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {

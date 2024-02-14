@@ -118,7 +118,7 @@ const Feed: React.FC = () => {
     }
 
     if (newPost) {
-      posts.unshift(...upcomingPosts,newPost);
+      posts.unshift(...upcomingPosts, newPost);
       setPosts([...posts]);
 
       setTweet("");
@@ -192,6 +192,9 @@ const Feed: React.FC = () => {
           handleSubmit={handleSubmit}
           emptyInput={emptyInput}
           isPoll={isPoll}
+          imageUploaded={imageUploaded}
+          inputLength={inputLength}
+          imageInputLength={imageInputLength}
         />
         <Tabs.Content value="tab1">
           <div>

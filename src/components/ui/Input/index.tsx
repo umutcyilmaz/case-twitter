@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
 import Avatar from "@/components/ui/Avatar";
 import Image from "next/image";
-import PollInput from "@/components/features/Feed/Post/Poll";
-// import ImageInput from "../input/ImageInput/index";
+import PollInput from "../Input/PollInput/index";
+import ImageInput from "../Input/ImageInput/index";
 import Photo from "@/components/features/Feed/Post/Photo";
 import { Button } from "../Button";
 import { IPost } from "@/types";
+import PreviewImage from "./PreviewImage";
+import TextInput from "./TextInput";
 
 interface Props {
   setTweet: React.Dispatch<React.SetStateAction<string>>;
@@ -23,6 +25,9 @@ interface Props {
   tweet: string;
   handleSubmit: () => void;
   emptyInput: boolean;
+  imageUploaded: boolean;
+  inputLength: number;
+  imageInputLength: boolean;
 }
 
 const TwitterInput: React.FC<Props> = ({
@@ -41,6 +46,9 @@ const TwitterInput: React.FC<Props> = ({
   tweet,
   handleSubmit,
   emptyInput,
+  imageUploaded,
+  inputLength,
+  imageInputLength,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -80,7 +88,7 @@ const TwitterInput: React.FC<Props> = ({
 
   const togglePoll = () => {
     setIsPoll(!isPoll);
-    setImageInputLength(true);
+    setImageInputLength(!imageInputLength);
   };
 
   const closePoll = () => {
@@ -134,15 +142,13 @@ const TwitterInput: React.FC<Props> = ({
       </div>
 
       <div className="flex flex-col pt-2 w-[510px]">
-        <textarea
-          ref={textareaRef}
-          className="w-full h-[28px] my-4 py-[2px] text-[20px] leading-[24px] placeholder-secondaryColor focus:border-transparent focus:outline-none rounded-md resize-none"
-          placeholder={isPoll ? "Ask a question" : "What is happening?!"}
-          value={tweet}
-          onChange={handleInputChange}
+        <TextInput
+          handleInputChange={handleInputChange}
+          tweet={tweet}
+          isPoll={isPoll}
         />
 
-        {/* {isPoll && !imageUploaded && (
+        {isPoll && !imageUploaded && (
           <PollInput
             pollOptions={pollOptions}
             addOption={addOption}
@@ -150,43 +156,36 @@ const TwitterInput: React.FC<Props> = ({
             inputLength={inputLength}
             closePoll={closePoll}
           />
-        )} */}
+        )}
 
-        {/* {imageUploaded && (
-          <ImageInput
+        {imageUploaded && (
+          <PreviewImage
             handleDeleteImage={handleDeleteImage}
             previewImages={previewImages}
           />
-        )} */}
+        )}
 
-        {/* <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div className="flex justify-center items-center gap-2">
-            <div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                disabled={imageInputLength}
-                multiple
-                className="hidden"
-                id="file-input"
-              />
-              <label htmlFor="file-input" className="cursor-pointer">
-                <div>
-                  <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    className={`w-4 h-4 ${
-                      imageInputLength ? "fill-gray-500" : "fill-blue-500"
-                    }`}
-                  >
-                    <g>
-                      <path d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path>
-                    </g>
-                  </svg>
-                </div>
-              </label>
-            </div>
+            <ImageInput
+              handleImageChange={handleImageChange}
+              imageInputLength={imageInputLength}
+            />
+            <label htmlFor="file-input" className="cursor-pointer">
+              <div>
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className={`w-4 h-4 ${
+                    imageInputLength ? "fill-gray-500" : "fill-blue-500"
+                  }`}
+                >
+                  <g>
+                    <path d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path>
+                  </g>
+                </svg>
+              </div>
+            </label>
 
             <div>
               <input
@@ -211,12 +210,17 @@ const TwitterInput: React.FC<Props> = ({
                 </svg>
               </label>
             </div>
-          </div> */}
+          </div>
 
-        <div className="flex justify-center items-center">
-          <Button className="mt-2" onClick={handleSubmit} disabled={emptyInput}>
-            Post
-          </Button>
+          <div className="flex justify-center items-center">
+            <Button
+              className="mt-2"
+              onClick={handleSubmit}
+              disabled={emptyInput}
+            >
+              Post
+            </Button>
+          </div>
         </div>
       </div>
     </div>
