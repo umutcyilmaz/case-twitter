@@ -6,19 +6,15 @@ import TwitterInput from "../../ui/Input";
 import { useEffect, useState } from "react";
 import { IPost } from "@/types";
 import LoadMore from "@/components/ui/LoadMore";
+import ShowMore from "../ShowMore";
 const { v4: uuidv4 } = require("uuid");
 
 function shuffle(array: any[]) {
   let currentIndex = array.length,
     randomIndex;
-
-  // While there remain elements to shuffle.
   while (currentIndex > 0) {
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
       array[currentIndex],
@@ -44,6 +40,7 @@ const Feed: React.FC = () => {
   const [imageInputLength, setImageInputLength] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [emptyInput, setEmptyInput] = useState<boolean>(true);
+  const [loadedPostCount, setLoadedPostCount] = useState<number>(0);
 
   const handleSubmit = () => {
     let newPost: IPost | null = null;
@@ -118,8 +115,7 @@ const Feed: React.FC = () => {
     }
 
     if (newPost) {
-      posts.unshift(...upcomingPosts, newPost);
-      setPosts([...posts]);
+      addNewPost(newPost);
 
       setTweet("");
       setImage(null);
@@ -132,7 +128,16 @@ const Feed: React.FC = () => {
     }
   };
 
-  //dasdasdasdasdasdasfasfasdfdsfsdfdsafafadfasdfasfafasf
+  const addNewPost = (newPost: IPost) => {
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  const fetchNewPosts = () => {
+    const shuffledData = shuffle([...postData]);
+    setPosts((prevPosts) => [...shuffledData, ...prevPosts]);
+    setUpcomingPosts([]);
+    setLoadedPostCount(loadedPostCount + shuffledData.length);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -145,6 +150,13 @@ const Feed: React.FC = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (loadedPostCount > 0) {
+      setPosts((prevPosts) => [...prevPosts, ...upcomingPosts]);
+      setUpcomingPosts([]);
+    }
+  }, [loadedPostCount]);
 
   return (
     <div className="flex flex-col mx-auto max-w-[600px] items-center w-full border-x border-borderColor">
@@ -198,16 +210,11 @@ const Feed: React.FC = () => {
         />
         <Tabs.Content value="tab1">
           <div>
-            <button
-              onClick={() => {
-                setPosts((posts) => {
-                  return [...upcomingPosts, ...posts];
-                });
-                setUpcomingPosts([]);
-              }}
-            >
-              Load {upcomingPosts.length} more posts.
-            </button>{" "}
+            {upcomingPosts.length > 0 && (
+              <ShowMore fetchNewPosts={fetchNewPosts} DataLength={upcomingPosts.length} />
+            )}
+
+
             {posts.map((post, key) => (
               <Post post={post} key={post.id + key} />
             ))}
