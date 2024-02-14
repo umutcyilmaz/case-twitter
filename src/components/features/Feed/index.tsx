@@ -5,7 +5,6 @@ import { posts as postData } from "../../../mock/posts";
 import TwitterInput from "../../ui/Input";
 import { useEffect, useState } from "react";
 import { IPost } from "@/types";
-import LoadMore from "@/components/ui/LoadMore";
 import ShowMore from "../ShowMore";
 const { v4: uuidv4 } = require("uuid");
 
@@ -43,6 +42,7 @@ const Feed: React.FC = () => {
     newPost = {
       id: uuidv4(),
       content: tweet,
+      time: new Date(),
       account: {
         avatar: "/avatarPhoto.jpeg",
         username: "elonmusk",
@@ -62,6 +62,7 @@ const Feed: React.FC = () => {
         id: uuidv4(),
         type: "photo",
         content: tweet,
+        time: new Date(),
         photos: image ? [...image] : [],
         account: {
           avatar: "/avatarPhoto.jpeg",
@@ -91,6 +92,7 @@ const Feed: React.FC = () => {
         id: uuidv4(),
         type: "poll",
         content: tweet,
+        time: new Date(),
         poll: {
           voted: false,
           votes: 0,
@@ -133,8 +135,6 @@ const Feed: React.FC = () => {
     setUpcomingPosts([]);
   };
 
-  
-
   useEffect(() => {
     const interval = setInterval(() => {
       setUpcomingPosts((oldPosts: IPost[]) => {
@@ -142,13 +142,10 @@ const Feed: React.FC = () => {
         let news = shuffle([...postData]);
         return [...olds, ...news];
       });
-    }, 10000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
-
-
-  console.log(posts);
 
   return (
     <div className="flex flex-col mx-auto max-w-[600px] items-center w-full border-x border-borderColor">
@@ -158,19 +155,19 @@ const Feed: React.FC = () => {
           aria-label="Manage your account"
         >
           <Tabs.Trigger
-            className="flex-auto data-[state=active]:font-bold  text-center  hover:bg-[#f7f9f9] transition-colors"
+            className="flex-auto data-[state=active]:font-bold data-[state=active]:text-primaryTextColor text-secondaryColor text-center hover:bg-[#f7f9f9] transition-colors"
             value="tab1"
           >
             <div className="relative inline-flex items-center border-b-4 border-primaryColor h-[53px]">
-              For You
+              For you
             </div>
           </Tabs.Trigger>
           <Tabs.Trigger
-            className="flex-auto  data-[state=active]:font-bold  h-[53px] text-center hover:bg-[#f7f9f9] transition-colors"
+            className="flex-auto  data-[state=active]:font-bold text-center hover:bg-[#f7f9f9] transition-colors"
             value="tab2"
           >
-            <div className="relative inline-flex items-center border-none active:border-b-4  active:border-primaryColor  h-[53px]">
-              For You
+            <div className="relative inline-flex text-secondaryColor items-center border-none active:border-b-4 leading-[20px] font-medium text-[15px] active:border-primaryColor  h-[53px]">
+              Following
             </div>
           </Tabs.Trigger>
           <button className="p-2 mx-2  hover:bg-hoverColor rounded-full">

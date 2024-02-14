@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { use, useRef, useState } from "react";
 import Avatar from "@/components/ui/Avatar";
 import Image from "next/image";
 import PollInput from "../Input/PollInput/index";
@@ -52,6 +52,11 @@ const TwitterInput: React.FC<Props> = ({
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const [mention, setMention] = useState<boolean>(false);
+  const [mentionText, setMentionText] = useState<string>("");
+  const [mentionIndex, setMentionIndex] = useState<number>(0);
+  const [mentionLastIndex, setMentionLastIndex] = useState<number>(0);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
 
@@ -61,9 +66,23 @@ const TwitterInput: React.FC<Props> = ({
       setEmptyInput(true);
     }
 
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+
+    if (tweet.slice(-2) === " @") {
+      setMention(true);
+    }
+    if (mention) {
+      const mentionText = tweet.slice(tweet.lastIndexOf("@"));
+      setMentionText(mentionText);
+      const mentionIndex = tweet.lastIndexOf("@");
+      setMentionIndex(mentionIndex);
+      const lastChar = tweet.charAt(tweet.length - 1);
+      setMentionLastIndex(tweet.length);
+
+      if (lastChar === " ") {
+        setMention(false);
+        console.log(mentionLastIndex);
+        return;
+      }
     }
   };
 
@@ -133,6 +152,8 @@ const TwitterInput: React.FC<Props> = ({
     }
   };
 
+  
+
   return (
     <div className="flex gap-3 px-4 pb-3 bg-white border-b border-borderColor">
       <div className="flex gap-3 mt-3">
@@ -146,7 +167,12 @@ const TwitterInput: React.FC<Props> = ({
           handleInputChange={handleInputChange}
           tweet={tweet}
           isPoll={isPoll}
+          mention={mention}
+          mentionIndex={mentionIndex}
+          mentionText={mentionText}
+          mentionLastIndex={mentionLastIndex}
         />
+
 
         {isPoll && !imageUploaded && (
           <PollInput
