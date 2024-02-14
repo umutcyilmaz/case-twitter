@@ -27,9 +27,6 @@ function shuffle(array: any[]) {
 const Feed: React.FC = () => {
   const [posts, setPosts] = useState<IPost[]>(postData);
   const [upcomingPosts, setUpcomingPosts] = useState<IPost[]>([]);
-  const [newPost, setNewPost] = useState<number>(0);
-
-  // dasdfasdfasfasfdsfsdF
 
   const [tweet, setTweet] = useState<string>("");
   const [image, setImage] = useState<string[] | null>(null);
@@ -40,7 +37,6 @@ const Feed: React.FC = () => {
   const [imageInputLength, setImageInputLength] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [emptyInput, setEmptyInput] = useState<boolean>(true);
-  const [loadedPostCount, setLoadedPostCount] = useState<number>(0);
 
   const handleSubmit = () => {
     let newPost: IPost | null = null;
@@ -133,11 +129,11 @@ const Feed: React.FC = () => {
   };
 
   const fetchNewPosts = () => {
-    const shuffledData = shuffle([...postData]);
-    setPosts((prevPosts) => [...shuffledData, ...prevPosts]);
+    setPosts((prevPosts) => [...upcomingPosts, ...prevPosts]);
     setUpcomingPosts([]);
-    setLoadedPostCount(loadedPostCount + shuffledData.length);
   };
+
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -151,12 +147,8 @@ const Feed: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (loadedPostCount > 0) {
-      setPosts((prevPosts) => [...prevPosts, ...upcomingPosts]);
-      setUpcomingPosts([]);
-    }
-  }, [loadedPostCount]);
+
+  console.log(posts);
 
   return (
     <div className="flex flex-col mx-auto max-w-[600px] items-center w-full border-x border-borderColor">
@@ -211,9 +203,11 @@ const Feed: React.FC = () => {
         <Tabs.Content value="tab1">
           <div>
             {upcomingPosts.length > 0 && (
-              <ShowMore fetchNewPosts={fetchNewPosts} DataLength={upcomingPosts.length} />
+              <ShowMore
+                fetchNewPosts={fetchNewPosts}
+                DataLength={upcomingPosts.length}
+              />
             )}
-
 
             {posts.map((post, key) => (
               <Post post={post} key={post.id + key} />
