@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import Poll from "./Poll";
 import Photo from "./Photo";
 import { IPost } from "@/types";
+import { hesaplaFarkZaman } from "@/lib/timeFormat";
+import DropdownMenu from "@/components/ui/DropDown";
 
 interface PostProps {
   post?: IPost;
@@ -22,30 +24,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [farkZaman, setFarkZaman] = useState<string | null>(null);
 
   useEffect(() => {
-    const hesaplaFarkZaman = () => {
-      if (post && post.time) {
-        const simdikiTarih = new Date();
-        const farkMilisaniye = simdikiTarih.getTime() - post.time.getTime();
-
-        const farkSaat = Math.floor(farkMilisaniye / (1000 * 60 * 60));
-        const farkDakika = Math.floor(farkMilisaniye / (1000 * 60)) % 60;
-        const farkSaniye = Math.floor(farkMilisaniye / 1000) % 60;
-
-        let formatliFarkZaman = "";
-        if (farkSaat >= 24) {
-          formatliFarkZaman = post.time.toLocaleDateString();
-        } else if (farkSaat > 0) {
-          formatliFarkZaman = `${farkSaat} hours`;
-        } else if (farkDakika > 0) {
-          formatliFarkZaman = `${farkDakika} mn`;
-        } else {
-          formatliFarkZaman = `${farkSaniye} sn`;
-        }
-        setFarkZaman(formatliFarkZaman);
-      }
+    const hesaplaVeGuncelle = () => {
+      const yeniFarkZaman = hesaplaFarkZaman(post);
+      setFarkZaman(yeniFarkZaman);
     };
-    hesaplaFarkZaman();
-    const intervalId = setInterval(hesaplaFarkZaman, 10000);
+    hesaplaVeGuncelle();
+    const intervalId = setInterval(hesaplaVeGuncelle, 10000);
     return () => clearInterval(intervalId);
   }, [post]);
 
@@ -80,7 +64,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                   <div>{farkZaman}</div>
                 </div>
               </div>
-              <button>···</button>
+              <DropdownMenu />
             </header>
             <div>
               <div
