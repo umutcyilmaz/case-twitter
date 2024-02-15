@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface PhotoProps {
@@ -5,43 +6,65 @@ interface PhotoProps {
 }
 
 const Photo: React.FC<PhotoProps> = ({ photos }) => {
+  console.log(photos[0]);
   switch (photos.length) {
     case 1:
       return (
-        <div className="mt-3">
-          <img
+        <div className="mt-3 relative max-w-[510px] w-full h-[516px]">
+          <Image
             src={photos[0]}
-            alt=""
-            className="border max-h-[510px] object-cover border-borderColor rounded-2xl"
+            alt={photos[0]}
+            fill
+            className="border object-cover border-borderColor rounded-2xl"
           />
         </div>
       );
 
     case 2:
       return (
-        <div className="mt-3 grid grid-cols-2 gap-0.5 h-[288px] border border-borderColor rounded-2xl overflow-hidden">
-          <img src={photos[0]} alt="" className="h-full w-full object-cover" />
-          <img src={photos[1]} alt="" className="h-full w-full object-cover" />
+        <div className="mt-3  max-w-[510px] grid grid-cols-2 gap-0.5 max-h-[288px] border border-borderColor rounded-2xl overflow-hidden">
+          <Image
+            src={photos[0]}
+            alt={photos[0]}
+            width={250}
+            height={288}
+            className="border w-full h-full object-cover border-borderColor "
+          />
+          <Image
+            src={photos[1]}
+            alt={photos[1]}
+            width={250}
+            height={288}
+            className="border  w-full h-full object-cover border-borderColor "
+          />
         </div>
       );
 
     case 3:
       return (
-        <div className="mt-3 grid grid-cols-2 gap-0.5 h-[288px] border border-borderColor rounded-2xl overflow-hidden">
-          <img src={photos[0]} alt="" className="h-full w-full object-cover" />
-          <div className="h-full flex flex-col gap-0.5">
-            <div className="flex-shrink-0 flex-1 relative">
-              <img
+        <div className="mt-3 grid grid-cols-2 gap-0.5  h-[288px] border border-borderColor rounded-2xl overflow-hidden">
+          <Image
+            src={photos[0]}
+            alt={photos[0]}
+            width={250}
+            height={288}
+            className="border  w-full h-full object-cover border-borderColor "
+          />{" "}
+          <div className="h-[288px] flex flex-col gap-0.5">
+            <div className="flex-shrink-0 flex-1 relative h-[144px]">
+              <Image
                 src={photos[1]}
-                alt=""
-                className="h-full absolute inset-0 flex-shrink-0 w-full object-cover"
+                alt={photos[1]}
+                fill
+                className="border  w-full h-full  object-cover border-borderColor "
               />
             </div>
-            <div className="flex-shrink-0 flex-1 relative">
-              <img
+            <div className="flex-shrink-0 flex-1 relative h-[144px]">
+              <Image
                 src={photos[2]}
-                alt=""
-                className="h-full absolute inset-0 flex-shrink-0 w-full object-cover"
+                alt={photos[2]}
+                fill
+                className="border  w-full h-full object-cover border-borderColor "
               />
             </div>
           </div>
@@ -50,27 +73,39 @@ const Photo: React.FC<PhotoProps> = ({ photos }) => {
 
     case 4:
       return (
-        <div className="mt-3 grid grid-cols-2 gap-0.5 h-[286px] border border-borderColor rounded-2xl overflow-hidden">
-          <img
-            src={photos[0]}
-            alt=""
-            className="h-[141px] w-full object-cover"
-          />
-          <img
-            src={photos[1]}
-            alt=""
-            className="h-[141px] w-full object-cover"
-          />
-          <img
-            src={photos[2]}
-            alt=""
-            className="h-[141px] w-full object-cover"
-          />
-          <img
-            src={photos[3]}
-            alt=""
-            className="h-[141px] w-full object-cover"
-          />
+        <div className="mt-3 relative grid grid-cols-2 gap-0.5 max-w-[510px] w-full h-[286px] border border-borderColor rounded-2xl overflow-hidden">
+          <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
+            <Image
+              src={photos[1]}
+              alt={photos[1]}
+              fill
+              className="border  w-full h-full  object-cover border-borderColor "
+            />
+          </div>
+          <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
+            <Image
+              src={photos[1]}
+              alt={photos[1]}
+              fill
+              className="border  w-full h-full  object-cover border-borderColor "
+            />
+          </div>
+          <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
+            <Image
+              src={photos[1]}
+              alt={photos[1]}
+              fill
+              className="border  w-full h-full  object-cover border-borderColor "
+            />
+          </div>
+          <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
+            <Image
+              src={photos[1]}
+              alt={photos[1]}
+              fill
+              className="border  w-full h-full  object-cover border-borderColor "
+            />
+          </div>
         </div>
       );
 
