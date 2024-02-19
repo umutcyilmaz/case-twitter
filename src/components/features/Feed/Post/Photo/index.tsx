@@ -6,7 +6,6 @@ interface PhotoProps {
 }
 
 const Photo: React.FC<PhotoProps> = ({ photos }) => {
-  console.log(photos[0]);
   switch (photos.length) {
     case 1:
       return (
@@ -76,8 +75,8 @@ const Photo: React.FC<PhotoProps> = ({ photos }) => {
         <div className="mt-3 relative grid grid-cols-2 gap-0.5 max-w-[510px] w-full h-[286px] border border-borderColor rounded-2xl overflow-hidden">
           <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
             <Image
-              src={photos[1]}
-              alt={photos[1]}
+              src={photos[0]}
+              alt={photos[0]}
               fill
               className="border  w-full h-full  object-cover border-borderColor "
             />
@@ -92,16 +91,16 @@ const Photo: React.FC<PhotoProps> = ({ photos }) => {
           </div>
           <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
             <Image
-              src={photos[1]}
-              alt={photos[1]}
+              src={photos[2]}
+              alt={photos[2]}
               fill
               className="border  w-full h-full  object-cover border-borderColor "
             />
           </div>
           <div className="flex-shrink-0 flex-1 relative w-[252px] h-[144px]">
             <Image
-              src={photos[1]}
-              alt={photos[1]}
+              src={photos[3]}
+              alt={photos[3]}
               fill
               className="border  w-full h-full  object-cover border-borderColor "
             />

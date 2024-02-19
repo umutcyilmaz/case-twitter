@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Poll from "./Poll";
 import Photo from "./Photo";
 import { IPost } from "@/types";
-import { hesaplaFarkZaman } from "@/lib/timeFormat";
+import { calculateTime } from "@/lib/timeFormat";
 import DropdownMenu from "@/components/ui/DropDown";
 
 interface PostProps {
@@ -21,15 +21,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setLiked((prevLiked) => !prevLiked);
   };
 
-  const [farkZaman, setFarkZaman] = useState<string | null>(null);
+  const [time, setTime] = useState<string | null>(null);
 
   useEffect(() => {
-    const hesaplaVeGuncelle = () => {
-      const yeniFarkZaman = hesaplaFarkZaman(post);
-      setFarkZaman(yeniFarkZaman);
+    const handleTime = () => {
+      const newElapsed = calculateTime(post);
+      setTime(newElapsed);
     };
-    hesaplaVeGuncelle();
-    const intervalId = setInterval(hesaplaVeGuncelle, 10000);
+    handleTime();
+    const intervalId = setInterval(handleTime, 10000);
     return () => clearInterval(intervalId);
   }, [post]);
 
@@ -61,7 +61,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 <div className="text-secondaryColor flex items-center gap-1.5">
                   <div>@{post.account.username}</div>
                   <div>·</div>
-                  <div>{farkZaman}</div>
+                  <div>{time}</div>
                 </div>
               </div>
               <DropdownMenu />

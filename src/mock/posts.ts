@@ -44,7 +44,7 @@ export const posts: IPost[] = [
     type: "photo",
     time: new Date(),
 
-    content: `deneme contentini huahhsjh ajshdasjhhd ashdakshdajh jahsajkhdasj`,
+    content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, labore error aspernatur non obcaecati quam voluptatum recusandae dolorum accusantium perspiciatis.`,
     photos: ["/avatarPhoto.jpeg"],
     account: {
       avatar: "/avatarPhoto.jpeg",

@@ -1,4 +1,5 @@
-import React, { ChangeEventHandler, useRef } from "react";
+"use client"
+import React, { ChangeEventHandler, useEffect, useRef } from "react";
 
 interface TextInputProps {
   isPoll: boolean;
@@ -20,11 +21,12 @@ const TextInput: React.FC<TextInputProps> = ({
   mentionLastIndex,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  if (textareaRef.current) {
-    textareaRef.current.style.height = "auto";
-    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-
-  }
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [tweet]);
 
   return (
     <div className="relative">

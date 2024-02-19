@@ -1,27 +1,25 @@
 import { IPost } from "@/types";
 
-
-export const hesaplaFarkZaman = (post: IPost): string | null => {
+export const calculateTime = (post: IPost): string | null => {
   if (post && post.time) {
-    const simdikiTarih = new Date();
-    const farkMilisaniye = simdikiTarih.getTime() - post.time.getTime();
+    const now = new Date();
+    const millisecond = now.getTime() - post.time.getTime();
 
-    const farkSaat = Math.floor(farkMilisaniye / (1000 * 60 * 60));
-    const farkDakika = Math.floor(farkMilisaniye / (1000 * 60)) % 60;
-    const farkSaniye = Math.floor(farkMilisaniye / 1000) % 60;
+    const hour = Math.floor(millisecond / (1000 * 60 * 60));
+    const minute = Math.floor(millisecond / (1000 * 60)) % 60;
+    const second = Math.floor(millisecond / 1000) % 60;
 
-    let formatliFarkZaman = "";
-    if (farkSaat >= 24) {
-      formatliFarkZaman = post.time.toLocaleDateString();
-    } else if (farkSaat > 0) {
-      formatliFarkZaman = `${farkSaat} saat`;
-    } else if (farkDakika > 0) {
-      formatliFarkZaman = `${farkDakika} dakika`;
+    let elapsed = "";
+    if (hour >= 24) {
+      elapsed = post.time.toLocaleDateString();
+    } else if (hour > 0) {
+      elapsed = `${hour} hour`;
+    } else if (minute > 0) {
+      elapsed = `${minute} minute`;
     } else {
-      formatliFarkZaman = `${farkSaniye} saniye`;
+      elapsed = `${second} second`;
     }
-    return formatliFarkZaman;
+    return elapsed;
   }
   return null;
 };
-
